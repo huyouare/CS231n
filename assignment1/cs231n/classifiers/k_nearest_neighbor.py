@@ -120,7 +120,7 @@ class KNearestNeighbor:
     test_sum = np.sum(np.square(X), axis=1) # num_test x 1
     train_sum = np.sum(np.square(self.X_train), axis=1) # num_train x 1
     inner_product = np.dot(X, self.X_train.T) # num_test x num_train
-    dists = np.sqrt(-2 * inner_product + test_sum + train_sum.T) # broadcast!
+    dists = np.sqrt(-2 * inner_product + test_sum.reshape(-1, 1) + train_sum) # broadcast
     #####################################################################
     #                       END OF YOUR CODE                            #
     #####################################################################
@@ -152,7 +152,8 @@ class KNearestNeighbor:
       # neighbors. Store these labels in closest_y.                           #
       # Hint: Look up the function numpy.argsort.                             #
       #########################################################################
-      pass
+      y_indicies = np.argsort(dists[i, :], axis = 0)
+      closest_y = self.y_train[y_indicies[:k]]
       #########################################################################
       # TODO:                                                                 #
       # Now that you have found the labels of the k nearest neighbors, you    #
@@ -160,7 +161,7 @@ class KNearestNeighbor:
       # Store this label in y_pred[i]. Break ties by choosing the smaller     #
       # label.                                                                #
       #########################################################################
-      pass
+      y_pred[i] = np.argmax(np.bincount(closest_y))
       #########################################################################
       #                           END OF YOUR CODE                            # 
       #########################################################################
