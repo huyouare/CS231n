@@ -80,7 +80,8 @@ def two_layer_net(X, model, y=None, reg=0.0):
   # Store the result in the scores variable, which should be an array of      #
   # shape (N, C).                                                             #
   #############################################################################
-  pass
+  hidden_layer = np.maximum(0, np.dot(X, W1) + b1) # ReLU activation
+  scores = np.dot(hidden_layer, W2) + b2
   #############################################################################
   #                              END OF YOUR CODE                             #
   #############################################################################
@@ -98,7 +99,15 @@ def two_layer_net(X, model, y=None, reg=0.0):
   # classifier loss. So that your results match ours, multiply the            #
   # regularization loss by 0.5                                                #
   #############################################################################
-  pass
+  # compute the class probabilities
+  exp_scores = np.exp(scores)
+  probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True) # [N x K]
+
+  # average cross-entropy loss and regularization
+  corect_logprobs = -np.log(probs[range(N),y])
+  data_loss = np.sum(corect_logprobs)/N
+  reg_loss = 0.5*reg*np.sum(W1*W1) + 0.5*reg*np.sum(W2*W2)
+  loss = data_loss + reg_loss
   #############################################################################
   #                              END OF YOUR CODE                             #
   #############################################################################
