@@ -90,14 +90,15 @@ class ClassifierTrainer(object):
         elif update == 'momentum':
           if not p in self.step_cache: 
             self.step_cache[p] = np.zeros(grads[p].shape)
-          dx = np.zeros_like(grads[p]) # you can remove this after
           #####################################################################
           # TODO: implement the momentum update formula and store the step    #
           # update into variable dx. You should use the variable              #
           # step_cache[p] and the momentum strength is stored in momentum.    #
           # Don't forget to also update the step_cache[p].                    #
           #####################################################################
-          pass
+          # Momentum update
+          dx = momentum * self.step_cache[p] - learning_rate * grads[p] # integrate velocity
+          self.step_cache[p] = dx
           #####################################################################
           #                      END OF YOUR CODE                             #
           #####################################################################
@@ -105,12 +106,12 @@ class ClassifierTrainer(object):
           decay_rate = 0.99 # you could also make this an option
           if not p in self.step_cache: 
             self.step_cache[p] = np.zeros(grads[p].shape)
-          dx = np.zeros_like(grads[p]) # you can remove this after
           #####################################################################
           # TODO: implement the RMSProp update and store the parameter update #
           # dx. Don't forget to also update step_cache[p]. Use smoothing 1e-8 #
           #####################################################################
-          pass
+          self.step_cache[p] = decay_rate * self.step_cache[p] + (1 - decay_rate) * grads[p]**2
+          dx = -learning_rate * grads[p] / np.sqrt(self.step_cache[p] + 1e-8)
           #####################################################################
           #                      END OF YOUR CODE                             #
           #####################################################################
