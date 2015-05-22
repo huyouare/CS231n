@@ -167,14 +167,3 @@ class ClassifierTrainer(object):
       print 'finished optimization. best validation accuracy: %f' % (best_val_acc, )
     # return the best model and the training history statistics
     return best_model, loss_history, train_acc_history, val_acc_history
-
-
-
-
-
-
-
-
-
-
-
