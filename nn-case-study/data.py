@@ -66,6 +66,22 @@ scores = np.dot(X, W) + b
 predicted_class = np.argmax(scores, axis=1)
 print 'training accuracy: %.2f' % (np.mean(predicted_class == y))
 
+# plot the resulting classifier
+h = 0.02
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                     np.arange(y_min, y_max, h))
+Z = np.dot(np.c_[xx.ravel(), yy.ravel()], W) + b
+Z = np.argmax(Z, axis=1)
+Z = Z.reshape(xx.shape)
+fig = plt.figure()
+plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral, alpha=0.8)
+plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap=plt.cm.Spectral)
+plt.xlim(xx.min(), xx.max())
+plt.ylim(yy.min(), yy.max())
+plt.show()
+
 ## Train a neural network
 
 # initialize parameters randomly
@@ -131,3 +147,19 @@ hidden_layer = np.maximum(0, np.dot(X, W) + b)
 scores = np.dot(hidden_layer, W2) + b2
 predicted_class = np.argmax(scores, axis=1)
 print 'training accuracy: %.2f' % (np.mean(predicted_class == y))
+
+# plot the resulting classifier
+h = 0.02
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                     np.arange(y_min, y_max, h))
+Z = np.dot(np.maximum(0, np.dot(np.c_[xx.ravel(), yy.ravel()], W) + b), W2) + b2
+Z = np.argmax(Z, axis=1)
+Z = Z.reshape(xx.shape)
+fig = plt.figure()
+plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral, alpha=0.8)
+plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap=plt.cm.Spectral)
+plt.xlim(xx.min(), xx.max())
+plt.ylim(yy.min(), yy.max())
+plt.show()
