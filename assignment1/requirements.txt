@@ -1,4 +1,4 @@
-Jinja2==2.7.3
+Jinja2==2.11.3
 MarkupSafe==0.23
 backports.ssl-match-hostname==3.4.0.2
 certifi==14.05.14
