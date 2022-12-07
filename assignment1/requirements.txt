@@ -1,7 +1,7 @@
 Jinja2==2.7.3
 MarkupSafe==0.23
 backports.ssl-match-hostname==3.4.0.2
-certifi==14.05.14
+certifi==2022.12.7
 gnureadline==6.3.3
 ipython==2.3.1
 matplotlib==1.4.2
